@@ -54,6 +54,8 @@ const BudgetProgress: React.FC<BudgetProgressProps> = ({ categories, expenses })
   
   const chartOptions = {
     cutout: '70%',
+    responsive: true,
+    maintainAspectRatio: true,
     plugins: {
       legend: {
         position: 'bottom' as const,
@@ -81,8 +83,8 @@ const BudgetProgress: React.FC<BudgetProgressProps> = ({ categories, expenses })
     <div className="card">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Budget Progress</h3>
       
-      <div className="flex flex-col md:flex-row items-center gap-6">
-        <div className="w-48 h-48 relative mx-auto">
+      <div className="flex flex-col lg:flex-row items-center gap-6">
+        <div className="w-full lg:w-48 h-48 relative mx-auto">
           <Doughnut data={chartData} options={chartOptions} />
           <div className="absolute inset-0 flex items-center justify-center flex-col">
             <span className="text-3xl font-bold text-gray-900">{spentPercentage}%</span>
@@ -90,7 +92,7 @@ const BudgetProgress: React.FC<BudgetProgressProps> = ({ categories, expenses })
           </div>
         </div>
         
-        <div className="flex-1 space-y-4">
+        <div className="flex-1 w-full space-y-4">
           <div className="bg-gray-50 p-4 rounded-lg">
             <div className="flex justify-between mb-1">
               <span className="text-sm text-gray-600">Total Budget:</span>

@@ -80,50 +80,50 @@ const EventDetail: React.FC = () => {
       <Header title={currentEvent.title} />
       
       <main className="page-container">
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-8 animate-fadeIn">
-          <div className="flex flex-col md:flex-row gap-6">
+        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 mb-8 animate-fadeIn">
+          <div className="flex flex-col lg:flex-row gap-6">
             <div className="flex-1">
-              <h1 className="text-2xl font-bold text-gray-900 mb-1">
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">
                 {currentEvent.title}
               </h1>
               <p className="text-gray-600 capitalize mb-4">
                 {currentEvent.type}
               </p>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div className="flex items-center text-gray-700">
-                  <Calendar size={18} className="mr-2 text-emerald-500" />
-                  <span>{formatDate(currentEvent.date)}</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                <div className="flex items-center text-sm text-gray-700">
+                  <Calendar size={16} className="mr-2 text-emerald-500 flex-shrink-0" />
+                  <span className="truncate">{formatDate(currentEvent.date)}</span>
                 </div>
                 
-                <div className="flex items-center text-gray-700">
-                  <MapPin size={18} className="mr-2 text-emerald-500" />
-                  <span>{currentEvent.location}</span>
+                <div className="flex items-center text-sm text-gray-700">
+                  <MapPin size={16} className="mr-2 text-emerald-500 flex-shrink-0" />
+                  <span className="truncate">{currentEvent.location}</span>
                 </div>
                 
-                <div className="flex items-center text-gray-700">
-                  <Users size={18} className="mr-2 text-emerald-500" />
+                <div className="flex items-center text-sm text-gray-700">
+                  <Users size={16} className="mr-2 text-emerald-500 flex-shrink-0" />
                   <span>{currentEvent.guestCount} guests</span>
                 </div>
                 
-                <div className="flex items-center text-gray-700">
-                  <DollarSign size={18} className="mr-2 text-emerald-500" />
+                <div className="flex items-center text-sm text-gray-700">
+                  <DollarSign size={16} className="mr-2 text-emerald-500 flex-shrink-0" />
                   <span>{formatCurrency(currentEvent.budget)} budget</span>
                 </div>
               </div>
             </div>
             
-            <div className="flex flex-col sm:flex-row md:flex-col gap-3 sm:gap-4">
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-3">
               <button
                 onClick={() => navigate(`/events/${eventId}/expenses/new`)}
-                className="btn-primary"
+                className="btn-primary w-full sm:w-auto"
               >
                 Add Expense
               </button>
               
               <button 
                 onClick={() => navigate(`/events/${eventId}/payments`)}
-                className="btn-secondary flex items-center justify-center"
+                className="btn-secondary w-full sm:w-auto flex items-center justify-center"
               >
                 <CreditCard size={16} className="mr-2" />
                 Payments
@@ -132,7 +132,7 @@ const EventDetail: React.FC = () => {
           </div>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-8">
           <BudgetProgress 
             categories={budgetCategories}
             expenses={expenses}

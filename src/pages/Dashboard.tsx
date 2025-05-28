@@ -31,9 +31,9 @@ const Dashboard: React.FC = () => {
       <Header />
       
       <main className="page-container">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
               Welcome, {user?.email?.split('@')[0] || 'User'}
             </h1>
             <p className="text-gray-600 mt-1">
@@ -43,7 +43,7 @@ const Dashboard: React.FC = () => {
           
           <button
             onClick={() => navigate('/events/new')}
-            className="btn-primary mt-4 md:mt-0 flex items-center"
+            className="btn-primary mt-4 sm:mt-0 w-full sm:w-auto flex items-center justify-center"
           >
             <PlusCircle size={18} className="mr-2" />
             Create New Event
@@ -75,7 +75,7 @@ const Dashboard: React.FC = () => {
             <p className="text-gray-500">Loading your events...</p>
           </div>
         ) : events.length === 0 ? (
-          <div className="text-center py-12 bg-white rounded-xl shadow-sm">
+          <div className="text-center py-8 sm:py-12 bg-white rounded-xl shadow-sm">
             <div className="mx-auto h-16 w-16 text-emerald-500 mb-4">
               <svg
                 viewBox="0 0 24 24"
@@ -93,7 +93,7 @@ const Dashboard: React.FC = () => {
             <h3 className="text-lg font-medium text-gray-900 mb-2">
               No events yet
             </h3>
-            <p className="text-gray-500 max-w-sm mx-auto mb-6">
+            <p className="text-gray-500 max-w-sm mx-auto mb-6 px-4">
               Start by creating your first event and let our smart budget planner help you manage your expenses.
             </p>
             <button
@@ -104,7 +104,7 @@ const Dashboard: React.FC = () => {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {events.map((event) => (
               <EventCard key={event.id} event={event} />
             ))}

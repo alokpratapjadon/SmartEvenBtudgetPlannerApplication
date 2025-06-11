@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
 import ErrorMessage from '../../components/common/ErrorMessage';
-import { Mail, Lock } from 'lucide-react';
+import { Mail, Lock, User } from 'lucide-react';
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
@@ -11,6 +11,7 @@ const SignUp: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [fullName, setFullName] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   
@@ -22,16 +23,19 @@ const SignUp: React.FC = () => {
       setError('Passwords do not match');
       return;
     }
+
+    if (!fullName.trim()) {
+      setError('Full name is required');
+      return;
+    }
     
     setIsLoading(true);
     
     try {
-      const { error } = await signUp(email, password);
+      const { error } = await signUp(email, password, fullName.trim());
       if (error) {
         setError(error.message);
       } else {
-        // The auth store will handle setting isAuthenticated
-        // App.tsx will handle the redirect based on auth state
         navigate('/dashboard');
       }
     } catch (err: any) {
@@ -75,6 +79,28 @@ const SignUp: React.FC = () => {
           {error && <ErrorMessage message={error} />}
           
           <form className="space-y-6" onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="fullName" className="form-label">
+                Full Name
+              </label>
+              <div className="mt-1 relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <User size={18} className="text-gray-400" />
+                </div>
+                <input
+                  id="fullName"
+                  name="fullName"
+                  type="text"
+                  autoComplete="name"
+                  required
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  className="form-input pl-10"
+                  placeholder="John Doe"
+                />
+              </div>
+            </div>
+
             <div>
               <label htmlFor="email" className="form-label">
                 Email address

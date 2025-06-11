@@ -17,6 +17,13 @@ const Header: React.FC<HeaderProps> = ({ title = 'Smart Event Budget Planner' })
     navigate('/signin');
   };
 
+  const getDisplayName = () => {
+    if (user?.full_name) {
+      return user.full_name;
+    }
+    return user?.email?.split('@')[0] || 'User';
+  };
+
   return (
     <header className="bg-white shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -61,7 +68,7 @@ const Header: React.FC<HeaderProps> = ({ title = 'Smart Event Budget Planner' })
                 className="flex items-center text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
               >
                 <User size={18} className="mr-1" />
-                {user?.email}
+                {getDisplayName()}
               </button>
               
               {isMenuOpen && (

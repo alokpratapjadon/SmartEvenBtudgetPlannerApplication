@@ -5,7 +5,7 @@ import { useEventStore } from '../stores/eventStore';
 import Header from '../components/common/Header';
 import EventCard from '../components/events/EventCard';
 import LoadingScreen from '../components/common/LoadingScreen';
-import { PlusCircle } from 'lucide-react';
+import { PlusCircle, Calendar, DollarSign, TrendingUp, Users, BarChart3 } from 'lucide-react';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -21,6 +21,27 @@ const Dashboard: React.FC = () => {
     
     loadEvents();
   }, [fetchEvents]);
+
+  const getDisplayName = () => {
+    if (user?.full_name) {
+      return user.full_name;
+    }
+    return user?.email?.split('@')[0] || 'User';
+  };
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+    }).format(amount);
+  };
+
+  // Calculate dashboard statistics
+  const totalEvents = events.length;
+  const totalBudget = events.reduce((sum, event) => sum + event.budget, 0);
+  const upcomingEvents = events.filter(event => new Date(event.date) > new Date()).length;
+  const totalGuests = events.reduce((sum, event) => sum + event.guestCount, 0);
   
   if (isInitialLoad && isLoading) {
     return <LoadingScreen />;
@@ -31,85 +52,227 @@ const Dashboard: React.FC = () => {
       <Header />
       
       <main className="page-container">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8">
-          <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
-              Welcome, {user?.email?.split('@')[0] || 'User'}
-            </h1>
-            <p className="text-gray-600 mt-1">
-              Manage your events and budgets efficiently
-            </p>
-          </div>
-          
-          <button
-            onClick={() => navigate('/events/new')}
-            className="btn-primary mt-4 sm:mt-0 w-full sm:w-auto flex items-center justify-center"
-          >
-            <PlusCircle size={18} className="mr-2" />
-            Create New Event
-          </button>
-        </div>
-        
-        {isLoading ? (
-          <div className="text-center py-10">
-            <svg
-              className="w-10 h-10 mx-auto mb-3 text-emerald-500 animate-spin"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              ></circle>
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
-            <p className="text-gray-500">Loading your events...</p>
-          </div>
-        ) : events.length === 0 ? (
-          <div className="text-center py-8 sm:py-12 bg-white rounded-xl shadow-sm">
-            <div className="mx-auto h-16 w-16 text-emerald-500 mb-4">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+        {/* Welcome Section */}
+        <div className="mb-8">
+          <div className="bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-2xl p-6 sm:p-8 text-white shadow-lg">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-bold mb-2">
+                  Welcome back, {getDisplayName()}! 👋
+                </h1>
+                <p className="text-emerald-100 text-lg">
+                  Ready to plan your next amazing event?
+                </p>
+              </div>
+              
+              <button
+                onClick={() => navigate('/events/new')}
+                className="mt-4 sm:mt-0 bg-white text-emerald-600 hover:bg-emerald-50 font-medium py-3 px-6 rounded-lg transition-all duration-200 flex items-center shadow-md"
               >
-                <path d="M19 4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z" />
-                <path d="M12 8v8" />
-                <path d="M8 12h8" />
-              </svg>
+                <PlusCircle size={20} className="mr-2" />
+                Create New Event
+              </button>
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              No events yet
-            </h3>
-            <p className="text-gray-500 max-w-sm mx-auto mb-6 px-4">
-              Start by creating your first event and let our smart budget planner help you manage your expenses.
-            </p>
+          </div>
+        </div>
+
+        {/* Statistics Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Total Events</p>
+                <p className="text-2xl font-bold text-gray-900">{totalEvents}</p>
+              </div>
+              <div className="bg-emerald-100 p-3 rounded-lg">
+                <Calendar className="h-6 w-6 text-emerald-600" />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Total Budget</p>
+                <p className="text-2xl font-bold text-gray-900">{formatCurrency(totalBudget)}</p>
+              </div>
+              <div className="bg-indigo-100 p-3 rounded-lg">
+                <DollarSign className="h-6 w-6 text-indigo-600" />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Upcoming Events</p>
+                <p className="text-2xl font-bold text-gray-900">{upcomingEvents}</p>
+              </div>
+              <div className="bg-amber-100 p-3 rounded-lg">
+                <TrendingUp className="h-6 w-6 text-amber-600" />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Total Guests</p>
+                <p className="text-2xl font-bold text-gray-900">{totalGuests}</p>
+              </div>
+              <div className="bg-purple-100 p-3 rounded-lg">
+                <Users className="h-6 w-6 text-purple-600" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+            <BarChart3 className="mr-2 text-emerald-500" />
+            Quick Actions
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <button
               onClick={() => navigate('/events/new')}
-              className="btn-primary"
+              className="p-4 border border-gray-200 rounded-lg hover:border-emerald-300 hover:bg-emerald-50 transition-all group"
             >
-              Create Your First Event
+              <div className="text-center">
+                <PlusCircle className="h-8 w-8 text-gray-400 group-hover:text-emerald-500 mx-auto mb-2" />
+                <h3 className="font-medium text-gray-900">Create Event</h3>
+                <p className="text-sm text-gray-500">Start planning a new event</p>
+              </div>
+            </button>
+
+            <button
+              onClick={() => {
+                if (events.length > 0) {
+                  navigate(`/events/${events[0].id}`);
+                }
+              }}
+              className="p-4 border border-gray-200 rounded-lg hover:border-indigo-300 hover:bg-indigo-50 transition-all group"
+              disabled={events.length === 0}
+            >
+              <div className="text-center">
+                <Calendar className="h-8 w-8 text-gray-400 group-hover:text-indigo-500 mx-auto mb-2" />
+                <h3 className="font-medium text-gray-900">View Latest Event</h3>
+                <p className="text-sm text-gray-500">Check your recent event</p>
+              </div>
+            </button>
+
+            <button
+              onClick={() => {
+                if (events.length > 0) {
+                  navigate(`/events/${events[0].id}/expenses/new`);
+                }
+              }}
+              className="p-4 border border-gray-200 rounded-lg hover:border-amber-300 hover:bg-amber-50 transition-all group"
+              disabled={events.length === 0}
+            >
+              <div className="text-center">
+                <DollarSign className="h-8 w-8 text-gray-400 group-hover:text-amber-500 mx-auto mb-2" />
+                <h3 className="font-medium text-gray-900">Add Expense</h3>
+                <p className="text-sm text-gray-500">Record a new expense</p>
+              </div>
             </button>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {events.map((event) => (
-              <EventCard key={event.id} event={event} />
-            ))}
+        </div>
+
+        {/* Recent Events Section */}
+        <div className="mb-8">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-semibold text-gray-900">Your Events</h2>
+            {events.length > 0 && (
+              <button
+                onClick={() => navigate('/events/new')}
+                className="text-emerald-600 hover:text-emerald-700 font-medium text-sm"
+              >
+                View All →
+              </button>
+            )}
           </div>
-        )}
+
+          {isLoading ? (
+            <div className="text-center py-10">
+              <svg
+                className="w-10 h-10 mx-auto mb-3 text-emerald-500 animate-spin"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              <p className="text-gray-500">Loading your events...</p>
+            </div>
+          ) : events.length === 0 ? (
+            <div className="text-center py-12 bg-white rounded-xl shadow-sm border border-gray-100">
+              <div className="mx-auto h-16 w-16 text-emerald-500 mb-4">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M19 4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z" />
+                  <path d="M12 8v8" />
+                  <path d="M8 12h8" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                No events yet
+              </h3>
+              <p className="text-gray-500 max-w-sm mx-auto mb-6 px-4">
+                Start by creating your first event and let our smart budget planner help you manage your expenses.
+              </p>
+              <button
+                onClick={() => navigate('/events/new')}
+                className="btn-primary"
+              >
+                Create Your First Event
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              {events.slice(0, 6).map((event) => (
+                <EventCard key={event.id} event={event} />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Tips Section */}
+        <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6 border border-indigo-100">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">💡 Pro Tips</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-white p-4 rounded-lg shadow-sm">
+              <h3 className="font-medium text-gray-900 mb-2">Budget Wisely</h3>
+              <p className="text-sm text-gray-600">
+                Allocate 10-15% of your budget for unexpected expenses to avoid going over budget.
+              </p>
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow-sm">
+              <h3 className="font-medium text-gray-900 mb-2">Track Everything</h3>
+              <p className="text-sm text-gray-600">
+                Record expenses as they happen to maintain accurate budget tracking throughout your event planning.
+              </p>
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   );

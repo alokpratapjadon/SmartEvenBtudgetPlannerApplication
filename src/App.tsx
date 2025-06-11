@@ -22,18 +22,18 @@ const App: React.FC = () => {
       <Routes>
         {isAuthenticated ? (
           <>
-            <Route path="/dashboard\" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/events/new" element={<NewEvent />} />
             <Route path="/events/:eventId" element={<EventDetail />} />
             <Route path="/events/:eventId/expenses/new" element={<AddExpense />} />
             <Route path="/events/:eventId/payments" element={<Payments />} />
-            <Route path="*" element={<Navigate to="/dashboard\" replace />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </>
         ) : (
           <>
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="*" element={<Navigate to="/signin\" replace />} />
+            <Route path="*" element={<Navigate to="/signin" replace />} />
           </>
         )}
       </Routes>

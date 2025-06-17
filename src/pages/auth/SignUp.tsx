@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
 import ErrorMessage from '../../components/common/ErrorMessage';
+import Logo from '../../components/common/Logo';
 import { Mail, Lock, User } from 'lucide-react';
 
 const SignUp: React.FC = () => {
@@ -46,36 +47,21 @@ const SignUp: React.FC = () => {
   };
   
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center">
-          <div className="text-emerald-500">
-            <svg 
-              width="48" 
-              height="48" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor" 
-              strokeWidth="2" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
-              <path d="M12 18V6" />
-            </svg>
-          </div>
+        <div className="flex justify-center mb-6">
+          <Logo size="lg" showText={true} />
         </div>
         <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
-          Create a new account
+          Join Eventra
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          Start planning your events with our smart budget planner
+          Create your account and start planning amazing events
         </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className="bg-white py-8 px-4 shadow-xl sm:rounded-xl sm:px-10 border border-gray-100">
           {error && <ErrorMessage message={error} />}
           
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -183,7 +169,7 @@ const SignUp: React.FC = () => {
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               Already have an account?{' '}
-              <Link to="/signin" className="font-medium text-emerald-600 hover:text-emerald-500">
+              <Link to="/signin" className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors">
                 Sign in
               </Link>
             </p>

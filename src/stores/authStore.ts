@@ -5,6 +5,7 @@ interface User {
   id: string;
   email: string;
   full_name?: string;
+  profile_image_url?: string;
 }
 
 interface AuthState {
@@ -15,7 +16,7 @@ interface AuthState {
   signUp: (email: string, password: string, fullName: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
   initializeAuth: () => Promise<void>;
-  updateProfile: (fullName: string) => Promise<{ error: any }>;
+  updateProfile: (fullName: string, profileImageUrl?: string) => Promise<{ error: any }>;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -42,7 +43,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
           user: { 
             id: data.user.id, 
             email: data.user.email as string,
-            full_name: profile?.full_name
+            full_name: profile?.full_name,
+            profile_image_url: profile?.profile_image_url
           }, 
           isAuthenticated: true 
         });
@@ -110,19 +112,28 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     }
   },
 
-  updateProfile: async (fullName: string) => {
+  updateProfile: async (fullName: string, profileImageUrl?: string) => {
     try {
       const user = get().user;
       if (!user) throw new Error('No user logged in');
 
+      const updateData: any = { full_name: fullName };
+      if (profileImageUrl) {
+        updateData.profile_image_url = profileImageUrl;
+      }
+
       const { error } = await supabase
         .from('users')
-        .update({ full_name: fullName })
+        .update(updateData)
         .eq('id', user.id);
 
       if (!error) {
         set(state => ({
-          user: state.user ? { ...state.user, full_name: fullName } : null
+          user: state.user ? { 
+            ...state.user, 
+            full_name: fullName,
+            ...(profileImageUrl && { profile_image_url: profileImageUrl })
+          } : null
         }));
       }
 
@@ -151,7 +162,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
           user: { 
             id: data.session.user.id, 
             email: data.session.user.email as string,
-            full_name: profile?.full_name
+            full_name: profile?.full_name,
+            profile_image_url: profile?.profile_image_url
           }, 
           isAuthenticated: true 
         });
@@ -171,7 +183,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             user: { 
               id: session.user.id, 
               email: session.user.email as string,
-              full_name: profile?.full_name
+              full_name: profile?.full_name,
+              profile_image_url: profile?.profile_image_url
             }, 
             isAuthenticated: true 
           });

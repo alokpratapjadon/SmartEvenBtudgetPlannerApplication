@@ -4,6 +4,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { useEventStore } from '../stores/eventStore';
 import Header from '../components/common/Header';
+import Footer from '../components/common/Footer';
 import PaymentForm from '../components/payments/PaymentForm';
 import LoadingScreen from '../components/common/LoadingScreen';
 
@@ -40,9 +41,9 @@ const Payments: React.FC = () => {
   
   if (!currentEvent) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 flex flex-col">
         <Header />
-        <div className="page-container text-center py-10">
+        <div className="page-container text-center py-10 flex-1">
           <h2 className="text-xl font-semibold text-gray-700">Event not found</h2>
           <button 
             onClick={() => navigate('/dashboard')} 
@@ -51,6 +52,7 @@ const Payments: React.FC = () => {
             Back to Dashboard
           </button>
         </div>
+        <Footer />
       </div>
     );
   }
@@ -65,10 +67,10 @@ const Payments: React.FC = () => {
   };
   
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Header title={`Payments - ${currentEvent.title}`} />
       
-      <main className="page-container max-w-3xl mx-auto">
+      <main className="page-container max-w-3xl mx-auto flex-1">
         <div className="card animate-fadeIn">
           <h2 className="text-xl font-bold text-gray-900 mb-6">Event Payments</h2>
           
@@ -113,6 +115,8 @@ const Payments: React.FC = () => {
           )}
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 };

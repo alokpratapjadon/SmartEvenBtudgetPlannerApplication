@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useEventStore } from '../stores/eventStore';
 import Header from '../components/common/Header';
+import Footer from '../components/common/Footer';
 import ErrorMessage from '../components/common/ErrorMessage';
 
 const NewEvent: React.FC = () => {
@@ -58,10 +59,10 @@ const NewEvent: React.FC = () => {
   };
   
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Header title="Create New Event" />
       
-      <main className="page-container max-w-3xl mx-auto">
+      <main className="page-container max-w-3xl mx-auto flex-1">
         {error && <ErrorMessage message={error} />}
         
         <form onSubmit={handleSubmit} className="card animate-fadeIn">
@@ -208,6 +209,8 @@ const NewEvent: React.FC = () => {
           </div>
         </form>
       </main>
+
+      <Footer />
     </div>
   );
 };

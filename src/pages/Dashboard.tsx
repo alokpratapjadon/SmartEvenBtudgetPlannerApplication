@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
 import { useEventStore } from '../stores/eventStore';
 import Header from '../components/common/Header';
+import Footer from '../components/common/Footer';
 import EventCard from '../components/events/EventCard';
 import LoadingScreen from '../components/common/LoadingScreen';
 import { PlusCircle, Calendar, DollarSign, TrendingUp, Users, BarChart3, Sparkles } from 'lucide-react';
@@ -48,10 +49,10 @@ const Dashboard: React.FC = () => {
   }
   
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Header />
       
-      <main className="page-container">
+      <main className="page-container flex-1">
         {/* Welcome Section */}
         <div className="mb-8">
           <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 rounded-2xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
@@ -260,7 +261,7 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Tips Section */}
-        <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6 border border-indigo-100">
+        <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6 border border-indigo-100 mb-8">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">💡 Pro Tips</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-white p-4 rounded-lg shadow-sm">
@@ -278,6 +279,8 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 };

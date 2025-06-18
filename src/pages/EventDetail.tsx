@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEventStore } from '../stores/eventStore';
 import Header from '../components/common/Header';
+import Footer from '../components/common/Footer';
 import LoadingScreen from '../components/common/LoadingScreen';
 import BudgetCategoryList from '../components/budget/BudgetCategoryList';
 import BudgetProgress from '../components/budget/BudgetProgress';
@@ -43,9 +44,9 @@ const EventDetail: React.FC = () => {
   
   if (!currentEvent) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 flex flex-col">
         <Header />
-        <div className="page-container text-center py-10">
+        <div className="page-container text-center py-10 flex-1">
           <h2 className="text-xl font-semibold text-gray-700">Event not found</h2>
           <button 
             onClick={() => navigate('/dashboard')} 
@@ -54,6 +55,7 @@ const EventDetail: React.FC = () => {
             Back to Dashboard
           </button>
         </div>
+        <Footer />
       </div>
     );
   }
@@ -76,10 +78,10 @@ const EventDetail: React.FC = () => {
   };
   
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Header title={currentEvent.title} />
       
-      <main className="page-container">
+      <main className="page-container flex-1">
         <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 mb-8 animate-fadeIn">
           <div className="flex flex-col lg:flex-row gap-6">
             <div className="flex-1">
@@ -150,6 +152,8 @@ const EventDetail: React.FC = () => {
           eventId={eventId || ''}
         />
       </main>
+
+      <Footer />
     </div>
   );
 };

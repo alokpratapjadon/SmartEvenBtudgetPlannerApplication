@@ -15,6 +15,10 @@ const NewEvent: React.FC = () => {
   const [location, setLocation] = useState('');
   const [budget, setBudget] = useState('');
   const [guestCount, setGuestCount] = useState('');
+  const [description, setDescription] = useState('');
+  const [isPublic, setIsPublic] = useState(false);
+  const [maxGuests, setMaxGuests] = useState('');
+  const [rsvpDeadline, setRsvpDeadline] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const handleSubmit = async (e: React.FormEvent) => {
@@ -34,6 +38,10 @@ const NewEvent: React.FC = () => {
         location,
         budget: parseFloat(budget),
         guestCount: parseInt(guestCount, 10),
+        description: description.trim() || undefined,
+        is_public: isPublic,
+        max_guests: maxGuests ? parseInt(maxGuests, 10) : undefined,
+        rsvp_deadline: rsvpDeadline || undefined,
       };
       
       // Create the event
@@ -98,22 +106,54 @@ const NewEvent: React.FC = () => {
                 <option value="wedding">Wedding</option>
                 <option value="party">Party</option>
                 <option value="trip">Trip</option>
+                <option value="conference">Conference</option>
+                <option value="birthday">Birthday</option>
+                <option value="corporate">Corporate Event</option>
                 <option value="other">Other</option>
               </select>
             </div>
-            
+
             <div>
-              <label htmlFor="date" className="form-label">
-                Event Date
+              <label htmlFor="description" className="form-label">
+                Description (Optional)
               </label>
-              <input
-                id="date"
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
+              <textarea
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 className="form-input"
-                required
+                rows={3}
+                placeholder="Tell your guests about this event..."
               />
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label htmlFor="date" className="form-label">
+                  Event Date
+                </label>
+                <input
+                  id="date"
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  className="form-input"
+                  required
+                />
+              </div>
+
+              <div>
+                <label htmlFor="rsvpDeadline" className="form-label">
+                  RSVP Deadline (Optional)
+                </label>
+                <input
+                  id="rsvpDeadline"
+                  type="date"
+                  value={rsvpDeadline}
+                  onChange={(e) => setRsvpDeadline(e.target.value)}
+                  className="form-input"
+                />
+              </div>
             </div>
             
             <div>
@@ -131,37 +171,77 @@ const NewEvent: React.FC = () => {
               />
             </div>
             
-            <div>
-              <label htmlFor="budget" className="form-label">
-                Total Budget ($)
-              </label>
-              <input
-                id="budget"
-                type="number"
-                min="0"
-                step="0.01"
-                value={budget}
-                onChange={(e) => setBudget(e.target.value)}
-                className="form-input"
-                placeholder="5000"
-                required
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label htmlFor="budget" className="form-label">
+                  Total Budget ($)
+                </label>
+                <input
+                  id="budget"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={budget}
+                  onChange={(e) => setBudget(e.target.value)}
+                  className="form-input"
+                  placeholder="5000"
+                  required
+                />
+              </div>
+              
+              <div>
+                <label htmlFor="guestCount" className="form-label">
+                  Expected Guest Count
+                </label>
+                <input
+                  id="guestCount"
+                  type="number"
+                  min="1"
+                  value={guestCount}
+                  onChange={(e) => setGuestCount(e.target.value)}
+                  className="form-input"
+                  placeholder="100"
+                  required
+                />
+              </div>
             </div>
-            
-            <div>
-              <label htmlFor="guestCount" className="form-label">
-                Expected Guest Count
-              </label>
-              <input
-                id="guestCount"
-                type="number"
-                min="1"
-                value={guestCount}
-                onChange={(e) => setGuestCount(e.target.value)}
-                className="form-input"
-                placeholder="100"
-                required
-              />
+
+            {/* RSVP Settings */}
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="font-medium text-gray-900 mb-4">RSVP Settings</h3>
+              
+              <div className="space-y-4">
+                <div className="flex items-center">
+                  <input
+                    id="isPublic"
+                    type="checkbox"
+                    checked={isPublic}
+                    onChange={(e) => setIsPublic(e.target.checked)}
+                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  />
+                  <label htmlFor="isPublic" className="ml-2 block text-sm text-gray-900">
+                    Allow public RSVPs (anyone with the link can RSVP)
+                  </label>
+                </div>
+
+                <div>
+                  <label htmlFor="maxGuests" className="form-label">
+                    Maximum Guests (Optional)
+                  </label>
+                  <input
+                    id="maxGuests"
+                    type="number"
+                    min="1"
+                    value={maxGuests}
+                    onChange={(e) => setMaxGuests(e.target.value)}
+                    className="form-input"
+                    placeholder="Leave empty for no limit"
+                  />
+                  <p className="text-sm text-gray-500 mt-1">
+                    Set a limit on total attendees including plus-ones
+                  </p>
+                </div>
+              </div>
             </div>
             
             <div className="pt-2 flex gap-3">

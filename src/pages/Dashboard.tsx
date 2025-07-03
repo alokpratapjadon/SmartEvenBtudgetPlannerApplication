@@ -7,6 +7,7 @@ import Footer from '../components/common/Footer';
 import EventCard from '../components/events/EventCard';
 import LoadingScreen from '../components/common/LoadingScreen';
 import SupabaseTest from '../components/common/SupabaseTest';
+import DatabaseStatus from '../components/common/DatabaseStatus';
 import { PlusCircle, Calendar, DollarSign, TrendingUp, Users, BarChart3, Sparkles } from 'lucide-react';
 
 const Dashboard: React.FC = () => {
@@ -15,6 +16,7 @@ const Dashboard: React.FC = () => {
   const { events, fetchEvents, isLoading } = useEventStore();
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [showSupabaseTest, setShowSupabaseTest] = useState(false);
+  const [showDatabaseStatus, setShowDatabaseStatus] = useState(false);
   
   useEffect(() => {
     const loadEvents = async () => {
@@ -73,6 +75,12 @@ const Dashboard: React.FC = () => {
                 
                 <div className="flex gap-2 mt-4 sm:mt-0">
                   <button
+                    onClick={() => setShowDatabaseStatus(!showDatabaseStatus)}
+                    className="bg-white/20 text-white hover:bg-white/30 font-medium py-2 px-4 rounded-lg transition-all duration-200 text-sm"
+                  >
+                    DB Status
+                  </button>
+                  <button
                     onClick={() => setShowSupabaseTest(!showSupabaseTest)}
                     className="bg-white/20 text-white hover:bg-white/30 font-medium py-2 px-4 rounded-lg transition-all duration-200 text-sm"
                   >
@@ -90,6 +98,13 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Database Status Component */}
+        {showDatabaseStatus && (
+          <div className="mb-8">
+            <DatabaseStatus />
+          </div>
+        )}
 
         {/* Supabase Test Component */}
         {showSupabaseTest && <SupabaseTest />}

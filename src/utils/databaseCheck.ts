@@ -4,28 +4,6 @@ export const checkDatabaseSchema = async () => {
   try {
     console.log('🔍 Checking database schema...');
     
-    // Check if events table exists and get its columns
-    const { data: columns, error } = await supabase
-      .rpc('get_table_columns', { table_name: 'events' })
-      .catch(async () => {
-        // Fallback: try to query the table directly to see what columns exist
-        const { data, error: queryError } = await supabase
-          .from('events')
-          .select('*')
-          .limit(0);
-        
-        if (queryError) {
-          throw queryError;
-        }
-        
-        return { data: null, error: null };
-      });
-
-    if (error) {
-      console.error('❌ Database schema check failed:', error);
-      return { success: false, error: error.message };
-    }
-
     // Try to insert a test record to see what columns are missing
     const testEvent = {
       title: 'Schema Test',
@@ -101,6 +79,46 @@ export const refreshSchemaCache = async () => {
 
   } catch (error: any) {
     console.error('❌ Unexpected error during schema refresh:', error);
+    return { success: false, error: error.message };
+  }
+};
+
+export const checkRequiredColumns = async () => {
+  try {
+    console.log('🔍 Checking required columns...');
+    
+    // Test each column individually by trying to select it
+    const requiredColumns = ['description', 'is_public', 'max_guests', 'rsvp_deadline'];
+    const missingColumns = [];
+    
+    for (const column of requiredColumns) {
+      try {
+        const { error } = await supabase
+          .from('events')
+          .select(column)
+          .limit(1);
+        
+        if (error && error.message.includes('column')) {
+          missingColumns.push(column);
+        }
+      } catch (err) {
+        missingColumns.push(column);
+      }
+    }
+    
+    if (missingColumns.length > 0) {
+      return {
+        success: false,
+        missingColumns,
+        error: `Missing columns: ${missingColumns.join(', ')}`,
+        needsMigration: true
+      };
+    }
+    
+    return { success: true, message: 'All required columns exist' };
+    
+  } catch (error: any) {
+    console.error('❌ Error checking columns:', error);
     return { success: false, error: error.message };
   }
 };

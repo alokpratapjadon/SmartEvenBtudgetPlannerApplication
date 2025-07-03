@@ -32,12 +32,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       });
       
       if (!error && data?.user) {
-        // Fetch user profile
+        // Fetch user profile - use maybeSingle() to handle missing profiles gracefully
         const { data: profile } = await supabase
           .from('users')
           .select('*')
           .eq('id', data.user.id)
-          .single();
+          .maybeSingle();
         
         set({ 
           user: { 
@@ -151,12 +151,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const { data } = await supabase.auth.getSession();
       
       if (data?.session?.user) {
-        // Fetch user profile
+        // Fetch user profile - use maybeSingle() to handle missing profiles gracefully
         const { data: profile } = await supabase
           .from('users')
           .select('*')
           .eq('id', data.session.user.id)
-          .single();
+          .maybeSingle();
 
         set({ 
           user: { 
@@ -172,12 +172,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       // Listen for auth changes
       supabase.auth.onAuthStateChange(async (_, session) => {
         if (session?.user) {
-          // Fetch user profile
+          // Fetch user profile - use maybeSingle() to handle missing profiles gracefully
           const { data: profile } = await supabase
             .from('users')
             .select('*')
             .eq('id', session.user.id)
-            .single();
+            .maybeSingle();
 
           set({ 
             user: { 

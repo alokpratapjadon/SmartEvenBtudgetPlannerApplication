@@ -12,6 +12,10 @@ export interface Event {
   guestCount: number;
   userId: string;
   createdAt: string;
+  description?: string;
+  is_public?: boolean;
+  max_guests?: number;
+  rsvp_deadline?: string;
 }
 
 export interface BudgetCategory {

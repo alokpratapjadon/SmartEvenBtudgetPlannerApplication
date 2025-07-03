@@ -6,6 +6,7 @@ import Header from '../components/common/Header';
 import Footer from '../components/common/Footer';
 import EventCard from '../components/events/EventCard';
 import LoadingScreen from '../components/common/LoadingScreen';
+import SupabaseTest from '../components/common/SupabaseTest';
 import { PlusCircle, Calendar, DollarSign, TrendingUp, Users, BarChart3, Sparkles } from 'lucide-react';
 
 const Dashboard: React.FC = () => {
@@ -13,6 +14,7 @@ const Dashboard: React.FC = () => {
   const { user } = useAuthStore();
   const { events, fetchEvents, isLoading } = useEventStore();
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [showSupabaseTest, setShowSupabaseTest] = useState(false);
   
   useEffect(() => {
     const loadEvents = async () => {
@@ -69,17 +71,28 @@ const Dashboard: React.FC = () => {
                   </p>
                 </div>
                 
-                <button
-                  onClick={() => navigate('/events/new')}
-                  className="mt-4 sm:mt-0 bg-white text-indigo-600 hover:bg-indigo-50 font-medium py-3 px-6 rounded-lg transition-all duration-200 flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"
-                >
-                  <PlusCircle size={20} className="mr-2" />
-                  Create New Event
-                </button>
+                <div className="flex gap-2 mt-4 sm:mt-0">
+                  <button
+                    onClick={() => setShowSupabaseTest(!showSupabaseTest)}
+                    className="bg-white/20 text-white hover:bg-white/30 font-medium py-2 px-4 rounded-lg transition-all duration-200 text-sm"
+                  >
+                    Test DB
+                  </button>
+                  <button
+                    onClick={() => navigate('/events/new')}
+                    className="bg-white text-indigo-600 hover:bg-indigo-50 font-medium py-3 px-6 rounded-lg transition-all duration-200 flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"
+                  >
+                    <PlusCircle size={20} className="mr-2" />
+                    Create New Event
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Supabase Test Component */}
+        {showSupabaseTest && <SupabaseTest />}
 
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">

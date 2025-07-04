@@ -88,7 +88,7 @@ const Dashboard: React.FC = () => {
                   </button>
                   <button
                     onClick={() => navigate('/events/new')}
-                    className="bg-white text-indigo-600 hover:bg-indigo-50 font-medium py-3 px-6 rounded-lg transition-all duration-200 flex items-center shadow-lg hover:shadow-xl transform hover:scale-50\"
+                    className="bg-white text-indigo-600 hover:bg-indigo-50 font-medium py-3 px-6 rounded-lg transition-all duration-200 flex items-center shadow-lg hover:shadow-xl transform hover:scale-105\"
                   >
                     <PlusCircle size={20} className="mr-2" />
                     Create New Event
@@ -123,7 +123,7 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-200 hover:scale-105">
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-200 hover:scale-10">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Total Budget</p>

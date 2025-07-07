@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
 import ErrorMessage from '../../components/common/ErrorMessage';
 import Logo from '../../components/common/Logo';
-import { Mail, Lock, Eye, EyeOff, ArrowRight, Calendar, DollarSign, Users, BarChart3 } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ArrowRight, Calendar, DollarSign, Users, BarChart3, User } from 'lucide-react';
 
 const SignIn: React.FC = () => {
   const navigate = useNavigate();
@@ -51,6 +51,11 @@ const SignIn: React.FC = () => {
     }, 3000);
     return () => clearInterval(interval);
   }, []);
+
+  const fillDemoCredentials = () => {
+    setEmail('alok123@ex.com');
+    setPassword('alok123');
+  };
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,7 +91,7 @@ const SignIn: React.FC = () => {
         <div className="relative z-10 flex flex-col justify-center items-center text-white p-12 w-full">
           <div className="mb-8 animate-fadeIn">
             {/* Enhanced Logo with better contrast */}
-            <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-white/30">
+            <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-8 mb-6 border border-amber-500/30 shadow-2xl">
               <Logo size="lg" showText={true} className="text-white drop-shadow-lg" />
             </div>
             <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent drop-shadow-lg">
@@ -181,6 +186,26 @@ const SignIn: React.FC = () => {
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow-2xl sm:rounded-2xl sm:px-10 border border-gray-100 animate-fadeIn">
             {error && <ErrorMessage message={error} />}
+            
+            {/* Demo Credentials Banner */}
+            <div className="mb-6 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <User className="h-5 w-5 text-amber-600 mr-2" />
+                  <div>
+                    <p className="text-sm font-medium text-amber-800">Try Demo Account</p>
+                    <p className="text-xs text-amber-600">alok123@ex.com / alok123</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={fillDemoCredentials}
+                  className="bg-amber-600 hover:bg-amber-700 text-white text-xs px-3 py-1.5 rounded-lg transition-colors font-medium"
+                >
+                  Use Demo
+                </button>
+              </div>
+            </div>
             
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="space-y-4">

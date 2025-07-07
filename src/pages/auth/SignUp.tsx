@@ -131,11 +131,14 @@ const SignUp: React.FC = () => {
 
         <div className="relative z-10 flex flex-col justify-center items-center text-white p-12 w-full">
           <div className="mb-8 animate-fadeIn text-center">
-            <Logo size="lg" showText={true} className="text-white mb-6" />
-            <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
+            {/* Enhanced Logo with better contrast */}
+            <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-white/30">
+              <Logo size="lg" showText={true} className="text-white drop-shadow-lg" />
+            </div>
+            <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent drop-shadow-lg">
               Start Your Journey
             </h1>
-            <p className="text-xl text-purple-100 max-w-lg leading-relaxed">
+            <p className="text-xl text-purple-100 max-w-lg leading-relaxed drop-shadow-sm">
               Join thousands of event planners who trust Eventra to create unforgettable experiences
             </p>
           </div>
@@ -157,13 +160,13 @@ const SignUp: React.FC = () => {
                     }`}
                   >
                     <div className="text-center">
-                      <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-r ${benefit.color} flex items-center justify-center transform hover:scale-110 transition-transform duration-300`}>
+                      <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-r ${benefit.color} flex items-center justify-center transform hover:scale-110 transition-transform duration-300 shadow-lg`}>
                         <Icon size={32} className="text-white" />
                       </div>
-                      <h3 className="text-xl font-semibold mb-3 text-white">
+                      <h3 className="text-xl font-semibold mb-3 text-white drop-shadow-sm">
                         {benefit.title}
                       </h3>
-                      <p className="text-purple-100 leading-relaxed">
+                      <p className="text-purple-100 leading-relaxed drop-shadow-sm">
                         {benefit.description}
                       </p>
                     </div>
@@ -193,10 +196,10 @@ const SignUp: React.FC = () => {
                 <Star key={i} size={16} className="text-yellow-400 fill-current" />
               ))}
             </div>
-            <p className="text-purple-200 text-sm">
+            <p className="text-purple-200 text-sm drop-shadow-sm">
               "Eventra transformed how we plan events. Absolutely amazing!"
             </p>
-            <p className="text-purple-300 text-xs mt-1">
+            <p className="text-purple-300 text-xs mt-1 drop-shadow-sm">
               - Sarah Johnson, Event Coordinator
             </p>
           </div>

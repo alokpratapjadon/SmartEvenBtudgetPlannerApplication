@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
 import ErrorMessage from '../../components/common/ErrorMessage';
 import Logo from '../../components/common/Logo';
-import { Mail, Lock, Eye, EyeOff, ArrowRight, Sparkles, Calendar, DollarSign, Users, BarChart3 } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ArrowRight, Calendar, DollarSign, Users, BarChart3 } from 'lucide-react';
 
 const SignIn: React.FC = () => {
   const navigate = useNavigate();
@@ -70,18 +70,6 @@ const SignIn: React.FC = () => {
       setIsLoading(false);
     }
   };
-
-  const handleDemoLogin = async () => {
-    setEmail('demo@eventra.com');
-    setPassword('demo123');
-    setIsLoading(true);
-    
-    // Simulate demo login
-    setTimeout(() => {
-      setIsLoading(false);
-      navigate('/dashboard');
-    }, 2000);
-  };
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex">
@@ -97,11 +85,14 @@ const SignIn: React.FC = () => {
 
         <div className="relative z-10 flex flex-col justify-center items-center text-white p-12 w-full">
           <div className="mb-8 animate-fadeIn">
-            <Logo size="lg" showText={true} className="text-white mb-4" />
-            <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
+            {/* Enhanced Logo with better contrast */}
+            <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-white/30">
+              <Logo size="lg" showText={true} className="text-white drop-shadow-lg" />
+            </div>
+            <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent drop-shadow-lg">
               Welcome to Eventra
             </h1>
-            <p className="text-xl text-purple-100 max-w-md text-center leading-relaxed">
+            <p className="text-xl text-purple-100 max-w-md text-center leading-relaxed drop-shadow-sm">
               The smart way to plan, budget, and manage your perfect events
             </p>
           </div>
@@ -123,13 +114,13 @@ const SignIn: React.FC = () => {
                     }`}
                   >
                     <div className="text-center">
-                      <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-r ${feature.color} flex items-center justify-center transform hover:scale-110 transition-transform duration-300`}>
+                      <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-r ${feature.color} flex items-center justify-center transform hover:scale-110 transition-transform duration-300 shadow-lg`}>
                         <Icon size={32} className="text-white" />
                       </div>
-                      <h3 className="text-xl font-semibold mb-3 text-white">
+                      <h3 className="text-xl font-semibold mb-3 text-white drop-shadow-sm">
                         {feature.title}
                       </h3>
-                      <p className="text-purple-100 leading-relaxed">
+                      <p className="text-purple-100 leading-relaxed drop-shadow-sm">
                         {feature.description}
                       </p>
                     </div>
@@ -155,16 +146,16 @@ const SignIn: React.FC = () => {
           {/* Stats */}
           <div className="grid grid-cols-3 gap-6 mt-8 text-center">
             <div className="animate-fadeIn" style={{ animationDelay: '0.2s' }}>
-              <div className="text-2xl font-bold text-white">10K+</div>
-              <div className="text-sm text-purple-200">Events Created</div>
+              <div className="text-2xl font-bold text-white drop-shadow-sm">10K+</div>
+              <div className="text-sm text-purple-200 drop-shadow-sm">Events Created</div>
             </div>
             <div className="animate-fadeIn" style={{ animationDelay: '0.4s' }}>
-              <div className="text-2xl font-bold text-white">$2M+</div>
-              <div className="text-sm text-purple-200">Budget Managed</div>
+              <div className="text-2xl font-bold text-white drop-shadow-sm">$2M+</div>
+              <div className="text-sm text-purple-200 drop-shadow-sm">Budget Managed</div>
             </div>
             <div className="animate-fadeIn" style={{ animationDelay: '0.6s' }}>
-              <div className="text-2xl font-bold text-white">98%</div>
-              <div className="text-sm text-purple-200">Satisfaction</div>
+              <div className="text-2xl font-bold text-white drop-shadow-sm">98%</div>
+              <div className="text-sm text-purple-200 drop-shadow-sm">Satisfaction</div>
             </div>
           </div>
         </div>
@@ -190,25 +181,6 @@ const SignIn: React.FC = () => {
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow-2xl sm:rounded-2xl sm:px-10 border border-gray-100 animate-fadeIn">
             {error && <ErrorMessage message={error} />}
-            
-            {/* Demo Login Button */}
-            <button
-              onClick={handleDemoLogin}
-              className="w-full mb-6 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-medium py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-lg flex items-center justify-center group"
-            >
-              <Sparkles size={18} className="mr-2 group-hover:animate-spin" />
-              Try Demo Account
-              <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
-            </button>
-
-            <div className="relative mb-6">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or continue with email</span>
-              </div>
-            </div>
             
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="space-y-4">

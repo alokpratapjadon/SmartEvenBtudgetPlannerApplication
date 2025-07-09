@@ -103,47 +103,78 @@ const Dashboard: React.FC = () => {
   }
   
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50 flex flex-col relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-cyan-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse animation-delay-2000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-4000"></div>
+        
+        {/* Floating particles */}
+        {[...Array(15)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-2 h-2 bg-indigo-300 rounded-full opacity-20 animate-float"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${3 + Math.random() * 4}s`
+            }}
+          />
+        ))}
+      </div>
+
       <Header />
       
-      <main className="page-container flex-1">
+      <main className="page-container flex-1 relative z-10">
         {/* Hero Section */}
         <div className="mb-8">
-          <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 rounded-2xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+          <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 rounded-3xl p-6 sm:p-8 text-white shadow-2xl relative overflow-hidden animate-fadeIn">
             <div className="absolute inset-0 bg-black opacity-10"></div>
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-32 -mt-32"></div>
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white opacity-5 rounded-full -ml-24 -mb-24"></div>
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-32 -mt-32 animate-pulse"></div>
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white opacity-5 rounded-full -ml-24 -mb-24 animate-pulse animation-delay-2000"></div>
+            
+            {/* Hero Image */}
+            <div className="absolute top-4 right-4 w-32 h-32 rounded-2xl overflow-hidden opacity-20 hidden lg:block">
+              <img
+                src="https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&w=400"
+                alt="Event planning"
+                className="w-full h-full object-cover"
+              />
+            </div>
             
             <div className="relative z-10">
               <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
                 <div className="flex-1">
-                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 flex items-center">
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 flex items-center animate-slideInFromLeft">
                     Welcome back, {getDisplayName()}! 
-                    <Sparkles className="ml-3 text-yellow-300 animate-pulse" size={32} />
+                    <Sparkles className="ml-3 text-yellow-300 animate-bounce" size={32} />
                   </h1>
-                  <p className="text-indigo-100 text-lg mb-4">
+                  <p className="text-indigo-100 text-lg mb-4 animate-slideInFromLeft animation-delay-200">
                     Ready to create your next unforgettable event?
                   </p>
                   
                   {/* Quick Stats in Hero */}
-                  <div className="flex flex-wrap gap-4 text-sm">
-                    <div className="bg-white/20 rounded-lg px-3 py-2 backdrop-blur-sm">
+                  <div className="flex flex-wrap gap-4 text-sm animate-slideInFromLeft animation-delay-400">
+                    <div className="bg-white/20 rounded-lg px-3 py-2 backdrop-blur-sm hover:bg-white/30 transition-all duration-200 transform hover:scale-105">
                       <span className="font-semibold">{totalEvents}</span> Events
                     </div>
-                    <div className="bg-white/20 rounded-lg px-3 py-2 backdrop-blur-sm">
+                    <div className="bg-white/20 rounded-lg px-3 py-2 backdrop-blur-sm hover:bg-white/30 transition-all duration-200 transform hover:scale-105">
                       <span className="font-semibold">{upcomingEvents}</span> Upcoming
                     </div>
-                    <div className="bg-white/20 rounded-lg px-3 py-2 backdrop-blur-sm">
+                    <div className="bg-white/20 rounded-lg px-3 py-2 backdrop-blur-sm hover:bg-white/30 transition-all duration-200 transform hover:scale-105">
                       <span className="font-semibold">{formatCurrency(totalBudget)}</span> Total Budget
                     </div>
                   </div>
                 </div>
                 
-                <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex flex-col sm:flex-row gap-3 animate-slideInFromRight">
                   <button
                     onClick={() => navigate('/events/new')}
-                    className="bg-white text-indigo-600 hover:bg-indigo-50 font-semibold py-3 px-6 rounded-xl transition-all duration-200 flex items-center shadow-lg hover:shadow-xl transform hover:scale-105 group"
+                    className="bg-white text-indigo-600 hover:bg-indigo-50 font-semibold py-3 px-6 rounded-xl transition-all duration-300 flex items-center shadow-lg hover:shadow-2xl transform hover:scale-110 group relative overflow-hidden"
                   >
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-indigo-100 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
                     <PlusCircle size={20} className="mr-2 group-hover:rotate-90 transition-transform duration-200" />
                     Create New Event
                   </button>
@@ -155,53 +186,53 @@ const Dashboard: React.FC = () => {
 
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:scale-105 group">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 hover:shadow-2xl transition-all duration-300 hover:scale-105 group animate-fadeIn">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600 group-hover:text-gray-700">Total Events</p>
                 <p className="text-3xl font-bold text-gray-900 mt-1">{totalEvents}</p>
                 <p className="text-xs text-emerald-600 mt-1">All time</p>
               </div>
-              <div className="bg-gradient-to-br from-emerald-400 to-emerald-600 p-3 rounded-xl group-hover:scale-110 transition-transform duration-200">
+              <div className="bg-gradient-to-br from-emerald-400 to-emerald-600 p-3 rounded-xl group-hover:scale-110 transition-transform duration-200 shadow-lg">
                 <Calendar className="h-6 w-6 text-white" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:scale-105 group">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 hover:shadow-2xl transition-all duration-300 hover:scale-105 group animate-fadeIn animation-delay-100">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600 group-hover:text-gray-700">Total Budget</p>
                 <p className="text-3xl font-bold text-gray-900 mt-1">{formatCurrency(totalBudget)}</p>
                 <p className="text-xs text-indigo-600 mt-1">Across all events</p>
               </div>
-              <div className="bg-gradient-to-br from-indigo-400 to-indigo-600 p-3 rounded-xl group-hover:scale-110 transition-transform duration-200">
+              <div className="bg-gradient-to-br from-indigo-400 to-indigo-600 p-3 rounded-xl group-hover:scale-110 transition-transform duration-200 shadow-lg">
                 <DollarSign className="h-6 w-6 text-white" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:scale-105 group">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 hover:shadow-2xl transition-all duration-300 hover:scale-105 group animate-fadeIn animation-delay-200">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600 group-hover:text-gray-700">Upcoming Events</p>
                 <p className="text-3xl font-bold text-gray-900 mt-1">{upcomingEvents}</p>
                 <p className="text-xs text-amber-600 mt-1">This month</p>
               </div>
-              <div className="bg-gradient-to-br from-amber-400 to-amber-600 p-3 rounded-xl group-hover:scale-110 transition-transform duration-200">
+              <div className="bg-gradient-to-br from-amber-400 to-amber-600 p-3 rounded-xl group-hover:scale-110 transition-transform duration-200 shadow-lg">
                 <TrendingUp className="h-6 w-6 text-white" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:scale-105 group">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 hover:shadow-2xl transition-all duration-300 hover:scale-105 group animate-fadeIn animation-delay-300">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600 group-hover:text-gray-700">Total Guests</p>
                 <p className="text-3xl font-bold text-gray-900 mt-1">{totalGuests}</p>
                 <p className="text-xs text-purple-600 mt-1">Expected attendees</p>
               </div>
-              <div className="bg-gradient-to-br from-purple-400 to-purple-600 p-3 rounded-xl group-hover:scale-110 transition-transform duration-200">
+              <div className="bg-gradient-to-br from-purple-400 to-purple-600 p-3 rounded-xl group-hover:scale-110 transition-transform duration-200 shadow-lg">
                 <Users className="h-6 w-6 text-white" />
               </div>
             </div>
@@ -209,7 +240,7 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8">
+        <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 p-6 mb-8 animate-fadeIn animation-delay-400">
           <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
             <BarChart3 className="mr-2 text-indigo-500" />
             Quick Actions
@@ -217,7 +248,7 @@ const Dashboard: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <button
               onClick={() => navigate('/events/new')}
-              className="p-4 border-2 border-dashed border-gray-200 rounded-xl hover:border-indigo-300 hover:bg-indigo-50 transition-all group"
+              className="p-4 border-2 border-dashed border-gray-200 rounded-xl hover:border-indigo-300 hover:bg-indigo-50 transition-all group transform hover:scale-105"
             >
               <div className="text-center">
                 <PlusCircle className="h-8 w-8 text-gray-400 group-hover:text-indigo-500 mx-auto mb-2 transition-colors group-hover:scale-110" />
@@ -232,7 +263,7 @@ const Dashboard: React.FC = () => {
                   navigate(`/events/${events[0].id}`);
                 }
               }}
-              className="p-4 border-2 border-gray-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50 transition-all group"
+              className="p-4 border-2 border-gray-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50 transition-all group transform hover:scale-105"
               disabled={events.length === 0}
             >
               <div className="text-center">
@@ -248,7 +279,7 @@ const Dashboard: React.FC = () => {
                   navigate(`/events/${events[0].id}/expenses/new`);
                 }
               }}
-              className="p-4 border-2 border-gray-200 rounded-xl hover:border-amber-300 hover:bg-amber-50 transition-all group"
+              className="p-4 border-2 border-gray-200 rounded-xl hover:border-amber-300 hover:bg-amber-50 transition-all group transform hover:scale-105"
               disabled={events.length === 0}
             >
               <div className="text-center">
@@ -347,7 +378,15 @@ const Dashboard: React.FC = () => {
               <p className="text-gray-500">Loading your events...</p>
             </div>
           ) : events.length === 0 ? (
-            <div className="text-center py-12 bg-white rounded-xl shadow-sm border border-gray-100">
+            <div className="text-center py-12 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 animate-bounceIn">
+              {/* Hero Image for Empty State */}
+              <div className="w-32 h-32 mx-auto mb-6 rounded-2xl overflow-hidden shadow-lg">
+                <img
+                  src="https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&w=400"
+                  alt="Create your first event"
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div className="mx-auto h-16 w-16 text-indigo-500 mb-4">
                 <svg
                   viewBox="0 0 24 24"
@@ -376,7 +415,7 @@ const Dashboard: React.FC = () => {
               </button>
             </div>
           ) : filteredEvents.length === 0 ? (
-            <div className="text-center py-12 bg-white rounded-xl shadow-sm border border-gray-100">
+            <div className="text-center py-12 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 animate-fadeIn">
               <Filter className="h-12 w-12 text-gray-300 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">
                 No events match your filters
@@ -410,7 +449,7 @@ const Dashboard: React.FC = () => {
         {events.length > 0 && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
             {/* Upcoming Events */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 p-6 animate-fadeIn animation-delay-500">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900 flex items-center">
                   <Clock className="mr-2 text-amber-500" />
@@ -427,7 +466,7 @@ const Dashboard: React.FC = () => {
                     <div 
                       key={event.id}
                       onClick={() => navigate(`/events/${event.id}`)}
-                      className="p-3 border border-gray-100 rounded-lg hover:border-amber-200 hover:bg-amber-50 transition-all cursor-pointer group"
+                      className="p-3 border border-gray-100 rounded-lg hover:border-amber-200 hover:bg-amber-50 transition-all cursor-pointer group transform hover:scale-105"
                     >
                       <div className="flex justify-between items-start">
                         <div className="flex-1">
@@ -448,7 +487,7 @@ const Dashboard: React.FC = () => {
             </div>
 
             {/* Recent Activity */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 p-6 animate-fadeIn animation-delay-600">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900 flex items-center">
                   <Star className="mr-2 text-emerald-500" />
@@ -462,7 +501,7 @@ const Dashboard: React.FC = () => {
                   <div 
                     key={event.id}
                     onClick={() => navigate(`/events/${event.id}`)}
-                    className="p-3 border border-gray-100 rounded-lg hover:border-emerald-200 hover:bg-emerald-50 transition-all cursor-pointer group"
+                    className="p-3 border border-gray-100 rounded-lg hover:border-emerald-200 hover:bg-emerald-50 transition-all cursor-pointer group transform hover:scale-105"
                   >
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
@@ -483,16 +522,22 @@ const Dashboard: React.FC = () => {
         )}
 
         {/* Tips Section */}
-        <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6 border border-indigo-100 mb-8">
+        <div className="bg-gradient-to-r from-indigo-50/80 to-purple-50/80 backdrop-blur-sm rounded-xl p-6 border border-indigo-100 mb-8 animate-fadeIn animation-delay-700">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">💡 Pro Tips</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-white/80 backdrop-blur-sm p-4 rounded-lg shadow-sm hover:shadow-lg transition-all transform hover:scale-105">
+              <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-lg flex items-center justify-center mb-3">
+                <DollarSign className="text-white" size={20} />
+              </div>
               <h3 className="font-medium text-gray-900 mb-2">Budget Wisely</h3>
               <p className="text-sm text-gray-600">
                 Allocate 10-15% of your budget for unexpected expenses to avoid going over budget.
               </p>
             </div>
-            <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-white/80 backdrop-blur-sm p-4 rounded-lg shadow-sm hover:shadow-lg transition-all transform hover:scale-105">
+              <div className="w-12 h-12 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-lg flex items-center justify-center mb-3">
+                <BarChart3 className="text-white" size={20} />
+              </div>
               <h3 className="font-medium text-gray-900 mb-2">Track Everything</h3>
               <p className="text-sm text-gray-600">
                 Record expenses as they happen to maintain accurate budget tracking throughout your event planning.
